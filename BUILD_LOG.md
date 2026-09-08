@@ -2,6 +2,18 @@
 
 This file records automated build metrics, lint results, bundle size audits, and milestone release validations for **Tandem** (Project Tandem).
 
+## [Build Run #021] - 2026-09-08 (v1.3.0 Release: 3-Agent Convention, 5-Year Wealth Trajectory & Multi-Scenario Matrix)
+
+* **Trigger**: Implementation of SemVer `v1.3.0`, 3-Agent Architecture & Operational Convention (`.agents/`), 5-Year Household Wealth Trajectory engine (`FinancialCopilot.jsx`), HECS/HELP debt & Salary Sacrifice packaging controls (`IncomeSection.jsx`), and 44-file quality governance validation.
+* **Linter Status (`oxlint`)**: **PASSED** — `0 warnings, 0 errors`
+* **Unit Tests (`vitest`)**: **PASSED** — `30/30 tests in 337ms`
+* **E2E Tests (`playwright`)**: **PASSED** — `14/14 tests`
+* **Total Quality Gate**: **44/44 TESTS PASSED**
+* **Vite Production Build**: **PASSED**
+* **Verification Status**: ✅ Release v1.3.0 Production & 3-Agent Quality Gate Verified
+
+---
+
 ## [Build Run #020] - 2026-08-19 (v1.2.0 Release: Luxury FinTech Redesign & 26-Test Automated Suite)
 
 * **Trigger**: Implementation of SemVer `v1.2.0`, luxury FinTech design overhaul (Linear/Monzo aesthetic, strict 4-color palette), Stage 3 $190k+ 45% tax bracket bug fix, autonomous visual preview pipeline (`capture-preview.js`), and 26/26 automated unit + E2E + adversarial test suite.

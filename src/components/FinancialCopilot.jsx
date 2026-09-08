@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, PieChart, Scale, ShieldCheck, Users } from 'lucide-react';
+import { Sparkles, PieChart, Scale, ShieldCheck, Users, TrendingUp } from 'lucide-react';
 import { formatMoney } from '../utils/formatters.js';
 import { annualiseAmount, deannualiseToMonthly } from '../logic/calculator.js';
 
@@ -53,11 +53,19 @@ export function FinancialCopilot({ data, savingsTargetMonthly, partners, expense
   const p1EquityPct = Math.round((p1Usable / combinedPartners) * 100);
   const p2EquityPct = 100 - p1EquityPct;
 
+  // 5. 5-Year Wealth Accumulation Calculation
+  const netSurplusMonthly = current.netCashflowMonthly || 0;
+  const netSurplus5Yr = Math.max(0, netSurplusMonthly * 12 * 5);
+  const superAnnual = totalSuper * 12;
+  const super5YrCompound = superAnnual * 5.637; // ~6% net annual compound growth multiplier over 5 years
+  const total5YrWealth = netSurplus5Yr + super5YrCompound;
+
   const tabs = [
     { id: 'structure', label: 'Cashflow Structure', icon: PieChart },
     { id: 'tax', label: 'Tax Efficiency', icon: Scale },
     { id: 'runway', label: 'Runway & Reserves', icon: ShieldCheck },
-    { id: 'equity', label: 'Partner Parity', icon: Users }
+    { id: 'equity', label: 'Partner Parity', icon: Users },
+    { id: 'wealth', label: '5-Yr Wealth', icon: TrendingUp }
   ];
 
   return (
@@ -182,6 +190,29 @@ export function FinancialCopilot({ data, savingsTargetMonthly, partners, expense
           <div className="copilot-narrative-card">
             <p className="copilot-narrative">
               {p1Name} contributes {p1EquityPct}% and {p2Name} contributes {p2EquityPct}% of your total usable income. Shared household expenses are allocated proportionally to maintain parity.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Insight Body 5: 5-Year Wealth & Super Forecast */}
+      {activeCopilotTab === 'wealth' && (
+        <div className="copilot-insight-body">
+          <div className="insight-main-metric">
+            <span className="insight-label">5-Year Household Net Worth Trajectory</span>
+            <span className="insight-highlight text-mint">
+              <strong>{formatMoney(total5YrWealth)} Est. 5-Yr Accumulated Wealth</strong>
+            </span>
+          </div>
+
+          <div className="progress-bar-track copilot-track">
+            <div className="progress-bar-fill fill-retained" style={{ width: `${total5YrWealth > 0 ? Math.round((netSurplus5Yr / total5YrWealth) * 100) : 50}%` }} title="Liquid Savings Surplus" />
+            <div className="progress-bar-fill fill-cat-housing" style={{ width: `${total5YrWealth > 0 ? Math.round((super5YrCompound / total5YrWealth) * 100) : 50}%` }} title="Compounded Super Wealth" />
+          </div>
+
+          <div className="copilot-narrative-card">
+            <p className="copilot-narrative">
+              Over 5 years, your baseline position generates <strong>{formatMoney(netSurplus5Yr)}</strong> in liquid cash surplus + <strong>{formatMoney(super5YrCompound)}</strong> in compounded Superannuation (at ~6% p.a. net growth).
             </p>
           </div>
         </div>

@@ -131,5 +131,23 @@ describe('Calculator — Mathematical & Financial Unit Tests', () => {
         household.baseline.netCashflowMonthly - 1000
       );
     });
+
+    it('correctly reduces taxable income when Salary Sacrifice is present', () => {
+      const partnerNoSacrifice = calculatePartnerPosition({
+        id: 'p1',
+        salary: 100000,
+        salarySacrificeAmount: 0
+      });
+
+      const partnerWithSacrifice = calculatePartnerPosition({
+        id: 'p1',
+        salary: 100000,
+        salarySacrificeAmount: 500,
+        salarySacrificeFrequency: 'monthly' // $6,000 / yr
+      });
+
+      expect(partnerWithSacrifice.taxableIncomeAnnual).toBe(94000);
+      expect(partnerWithSacrifice.totalTaxAnnual).toBeLessThan(partnerNoSacrifice.totalTaxAnnual);
+    });
   });
 });

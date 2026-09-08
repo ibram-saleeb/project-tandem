@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { formatMoney } from '../utils/formatters.js';
+import { FinancialCopilot } from './FinancialCopilot.jsx';
 
 export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, _onSavingsChange }) {
   const [isMonthClosed, setIsMonthClosed] = useState(false);
@@ -129,6 +130,14 @@ export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, _onSav
           <div className="intel-link">Model it →</div>
         </div>
       </div>
+
+      {/* Household Intelligence Copilot */}
+      <FinancialCopilot
+        data={data}
+        savingsTargetMonthly={savingsTargetMonthly}
+        partners={[current.p1, current.p2]}
+        expenses={[]}
+      />
 
       {/* Close Out Month Action Button */}
       <button

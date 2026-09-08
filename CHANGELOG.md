@@ -5,6 +5,16 @@ All notable changes to **Tandem** (Project Tandem) will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-09-08
+
+### Added
+- **3-Agent Architectural & Operational Convention (`.agents/`)**: Master rules and skills for Agent 1 (CTO & Lead Architect), Agent 2 (Code Reviewer & Development Hygiene Engineer), and Agent 3 (QA & Test Automation Engineer).
+- **5-Year Household Net Worth Trajectory (`FinancialCopilot.jsx`)**: New interactive intelligence tab forecasting 5-year combined liquid surplus and compounded Super Guarantee wealth (~6% p.a. net growth).
+- **HECS/HELP Debt & Pre-Tax Salary Sacrifice Integration (`IncomeSection.jsx`)**: Dedicated controls per partner for compulsory HECS repayment tracking and salary sacrifice packaging.
+- **v1.3.0 Playwright E2E Spec Suite (`e2e/v130-features.spec.js`)**: Playwright automation verifying 5-year wealth forecast card rendering and HECS debt toggle interactions.
+
+---
+
 ## [1.2.0] - 2026-08-19
 
 ### Changed & Improved
