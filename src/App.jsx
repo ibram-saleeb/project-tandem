@@ -157,6 +157,7 @@ export default function App() {
             scenarioMode={appState.scenarioMode}
             savingsTargetMonthly={appState.savingsTargetMonthly}
             onSavingsChange={handleSavingsChange}
+            expenses={appState.expenses}
           />
         )}
 

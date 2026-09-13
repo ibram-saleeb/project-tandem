@@ -2,6 +2,18 @@
 
 This file records automated build metrics, lint results, bundle size audits, and milestone release validations for **Tandem** (Project Tandem).
 
+## [Build Run #022] - 2026-09-13 (UX & Visual Polish: Interactive Donut Charts & Frosted Tooltips)
+
+* **Trigger**: Integration of interactive `CashflowDonutChart` into `ExpenseSection.jsx`, Nordic Obsidian palette alignment across all Recharts visualizations, bespoke frosted glass dark-mode tooltips (`.custom-chart-tooltip`), dynamic fixed commitments calculation in `HeroDashboard.jsx`, and iPhone 16 responsive visual verification.
+* **Linter Status (`oxlint`)**: **PASSED** — `0 warnings, 0 errors` across 45 files
+* **Unit Tests (`vitest`)**: **PASSED** — `30/30 tests`
+* **E2E Tests (`playwright`)**: **PASSED** — `16/16 tests` (including `V130-03` and `V130-04`)
+* **Total Quality Gate**: **46/46 TESTS PASSED**
+* **Vite Production Build**: **PASSED**
+* **Verification Status**: ✅ 3-Agent Quality Gate & Full Governance Pipeline Verified
+
+---
+
 ## [Build Run #021] - 2026-09-08 (v1.3.0 Release: 3-Agent Convention, 5-Year Wealth Trajectory & Multi-Scenario Matrix)
 
 * **Trigger**: Implementation of SemVer `v1.3.0`, 3-Agent Architecture & Operational Convention (`.agents/`), 5-Year Household Wealth Trajectory engine (`FinancialCopilot.jsx`), HECS/HELP debt & Salary Sacrifice packaging controls (`IncomeSection.jsx`), and 44-file quality governance validation.

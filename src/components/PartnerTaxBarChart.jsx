@@ -27,7 +27,7 @@ export function PartnerTaxBarChart({ calculatedData }) {
     if (active && payload && payload.length) {
       return (
         <div className="custom-chart-tooltip">
-          <div className="tooltip-cat-title">{label} Monthly Breakdown</div>
+          <div className="tooltip-cat-title">{label} Monthly Distribution</div>
           {payload.map((entry, idx) => (
             <div key={idx} className="tooltip-row" style={{ color: entry.color }}>
               <span>{entry.name}:</span>
@@ -41,18 +41,18 @@ export function PartnerTaxBarChart({ calculatedData }) {
   };
 
   return (
-    <div className="partner-bar-chart-card">
+    <div className="partner-bar-chart-card" aria-label="Partner Income & Tax Distribution Comparison">
       <h3 className="chart-card-title">🤝 Partner Income & Tax Distribution Comparison</h3>
       <div style={{ width: '100%', height: 260 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 15, right: 15, left: -15, bottom: 5 }}>
-            <XAxis dataKey="name" stroke="#94A3B8" fontSize={12} tickLine={false} />
-            <YAxis stroke="#94A3B8" fontSize={11} tickFormatter={(v) => `$${v}`} tickLine={false} />
+          <BarChart data={data} margin={{ top: 15, right: 15, left: -10, bottom: 5 }}>
+            <XAxis dataKey="name" stroke="#8e958e" fontSize={12} tickLine={false} />
+            <YAxis stroke="#8e958e" fontSize={11} tickFormatter={(v) => `$${v}`} tickLine={false} />
             <Tooltip content={<CustomTooltip />} />
-            <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-            <Bar dataKey="Spendable Take-Home" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
-            <Bar dataKey="ATO Tax & Medicare" stackId="a" fill="#F43F5E" radius={[0, 0, 0, 0]} />
-            <Bar dataKey="Super Guarantee" stackId="a" fill="#6366F1" radius={[4, 4, 0, 0]} />
+            <Legend wrapperStyle={{ fontSize: '11.5px', paddingTop: '10px' }} />
+            <Bar dataKey="Spendable Take-Home" stackId="a" fill="#7fe3cf" radius={[0, 0, 0, 0]} />
+            <Bar dataKey="ATO Tax & Medicare" stackId="a" fill="#f43f5e" radius={[0, 0, 0, 0]} />
+            <Bar dataKey="Super Guarantee" stackId="a" fill="#3dbfa8" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

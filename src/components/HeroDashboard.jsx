@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { formatMoney } from '../utils/formatters.js';
 import { FinancialCopilot } from './FinancialCopilot.jsx';
 
-export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, _onSavingsChange }) {
+export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, onSavingsChange: _onSavingsChange, expenses: propExpenses = [] }) {
   const [isMonthClosed, setIsMonthClosed] = useState(false);
   const { baseline, scenario } = data;
 
@@ -16,8 +16,21 @@ export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, _onSav
   const target = savingsTargetMonthly || 1500;
   const freeAfterSavings = Math.max(0, buffer - target);
 
-  // Proportions for segmented bar
-  const fixedExpensesVal = 4450; // default estimated fixed
+  // Dynamic calculation for fixed vs flexible commitments
+  const expenseList = propExpenses && propExpenses.length > 0 ? propExpenses : (current.expenses || []);
+  const fixedCategories = ['Housing', 'Debt', 'Insurance', 'Childcare'];
+  const fixedExpensesVal = expenseList.length > 0
+    ? expenseList
+        .filter(e => fixedCategories.includes(e.category || 'General'))
+        .reduce((sum, e) => {
+          const amt = Number(e.amount) || 0;
+          let m = amt;
+          if (e.frequency === 'annual') m = amt / 12;
+          if (e.frequency === 'weekly') m = (amt * 52) / 12;
+          if (e.frequency === 'fortnightly') m = (amt * 26) / 12;
+          return sum + m;
+        }, 0)
+    : 4450;
   const flexibleExpensesVal = Math.max(0, expenses - fixedExpensesVal);
   
   const fixedPct = usable > 0 ? Math.min(100, Math.round((fixedExpensesVal / usable) * 100)) : 34;
@@ -136,7 +149,7 @@ export function HeroDashboard({ data, scenarioMode, savingsTargetMonthly, _onSav
         data={data}
         savingsTargetMonthly={savingsTargetMonthly}
         partners={[current.p1, current.p2]}
-        expenses={[]}
+        expenses={expenseList}
       />
 
       {/* Close Out Month Action Button */}

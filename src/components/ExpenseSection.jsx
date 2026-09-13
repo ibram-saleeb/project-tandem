@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { formatMoney } from '../utils/formatters.js';
 import { annualiseAmount, deannualiseToMonthly } from '../logic/calculator.js';
+import { CashflowDonutChart } from './CashflowDonutChart.jsx';
 
-export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
+export function ExpenseSection({ expenses = [], onUpdateExpenses, partners }) {
   const [newLabel, setNewLabel] = useState('');
   const [newAmount, setNewAmount] = useState('');
   const [newFrequency, setNewFrequency] = useState('monthly');
+  const [newCategory, setNewCategory] = useState('Living');
   const newAssignedTo = 'shared';
-  const newCategory = 'Living';
   const [activeFilter, setActiveFilter] = useState('all');
 
   const p1Name = partners?.[0]?.name || 'Alex';
@@ -50,7 +51,7 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
     }
     if (activeFilter === 'p1') return exp.assignedTo === 'p1';
     if (activeFilter === 'p2') return exp.assignedTo === 'p2';
-    return true;
+    return (exp.category || 'General').toLowerCase() === activeFilter.toLowerCase();
   });
 
   return (
@@ -63,6 +64,13 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
           <div className="expenses-count-tag">· {expenses.length} outgoings</div>
         </div>
       </div>
+
+      {/* Visual Category Breakdown Donut Chart */}
+      <CashflowDonutChart
+        expenses={expenses}
+        activeCategory={activeFilter}
+        onSelectCategory={(cat) => setActiveFilter((prev) => prev.toLowerCase() === cat.toLowerCase() ? 'all' : cat)}
+      />
 
       {/* Category Filter Pills */}
       <div className="category-filter-row">
@@ -94,6 +102,15 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
         >
           {p2Name}
         </button>
+        {activeFilter !== 'all' && activeFilter !== 'fixed' && activeFilter !== 'p1' && activeFilter !== 'p2' && (
+          <button
+            type="button"
+            className="cat-filter-btn active"
+            onClick={() => setActiveFilter('all')}
+          >
+            {activeFilter} ✕
+          </button>
+        )}
       </div>
 
       {/* Ranked Expense Items List */}
@@ -116,7 +133,7 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
                 </div>
 
                 <div className="expense-card-meta">
-                  {exp.frequency === 'monthly' ? 'Monthly' : `${formatMoney(exp.amount)} ${exp.frequency}`} · {exp.assignedTo === 'shared' ? 'shared 50/50' : 'personal'}
+                  {exp.frequency === 'monthly' ? 'Monthly' : `${formatMoney(exp.amount)} ${exp.frequency}`} · {exp.assignedTo === 'shared' ? 'shared 50/50' : 'personal'} · {exp.category || 'General'}
                 </div>
 
                 <div className="expense-card-progress">
@@ -157,7 +174,7 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
             value={newLabel}
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder="e.g. Rent, Groceries, Electricity"
-            style={{ flex: '1.5', minWidth: '160px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.75rem', color: 'var(--text-main)' }}
+            style={{ flex: '1.5', minWidth: '150px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.75rem', color: 'var(--text-main)' }}
             required
           />
 
@@ -169,7 +186,7 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
             value={newAmount}
             onChange={(e) => setNewAmount(e.target.value)}
             placeholder="0"
-            style={{ width: '90px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.75rem', color: 'var(--text-main)' }}
+            style={{ width: '85px', background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.75rem', color: 'var(--text-main)' }}
             required
           />
 
@@ -182,6 +199,21 @@ export function ExpenseSection({ expenses, onUpdateExpenses, partners }) {
             <option value="weekly">per week</option>
             <option value="fortnightly">per fortnight</option>
             <option value="annual">per year</option>
+          </select>
+
+          <select
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            style={{ background: 'var(--bg-input)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.55rem 0.75rem', color: 'var(--text-main)' }}
+          >
+            <option value="Living">Living</option>
+            <option value="Housing">Housing</option>
+            <option value="Transport">Transport</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Personal">Personal</option>
+            <option value="Debt">Debt</option>
+            <option value="Childcare">Childcare</option>
+            <option value="General">General</option>
           </select>
 
           <button

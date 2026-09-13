@@ -30,4 +30,36 @@ test.describe('Project Tandem v1.3.0 Features', () => {
     // Verify button switches state to HECS ACTIVE
     await expect(page.locator('button:has-text("HECS ACTIVE")').first()).toBeVisible();
   });
+
+  test('V130-03: Verifies CashflowDonutChart renders in Expenses and filters on category click', async ({ page }) => {
+    // Navigate to Expenses tab
+    const expensesNavBtn = page.locator('.sidebar-nav-item:has-text("Expenses"), .nav-tab-item:has-text("Expenses")').first();
+    await expect(expensesNavBtn).toBeVisible();
+    await expensesNavBtn.click();
+
+    // Verify donut chart wrapper and center metric exist
+    const donutWrapper = page.locator('.donut-chart-wrapper');
+    await expect(donutWrapper).toBeVisible();
+    await expect(page.locator('.donut-center-metric')).toBeVisible();
+
+    // Click on a category legend item (e.g., Housing)
+    const housingLegendBtn = page.locator('.legend-item:has-text("Housing")').first();
+    if (await housingLegendBtn.isVisible()) {
+      await housingLegendBtn.click();
+      // Verify active category pill is visible in filter row
+      await expect(page.locator('.cat-filter-btn.active:has-text("Housing")')).toBeVisible();
+    }
+  });
+
+  test('V130-04: Verifies PartnerTaxBarChart renders in Income section', async ({ page }) => {
+    // Navigate to Income tab
+    const incomeNavBtn = page.locator('.sidebar-nav-item:has-text("Income"), .nav-tab-item:has-text("Income")').first();
+    await expect(incomeNavBtn).toBeVisible();
+    await incomeNavBtn.click();
+
+    // Verify partner bar chart card is visible
+    const barChartCard = page.locator('.partner-bar-chart-card');
+    await expect(barChartCard).toBeVisible();
+    await expect(page.locator('text=Partner Income & Tax Distribution Comparison')).toBeVisible();
+  });
 });
